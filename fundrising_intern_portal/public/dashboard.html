@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | FundraisePro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --light: #f8fafc;
+      --dark: #0f172a;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.25rem;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      color: var(--accent);
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .user-name {
+      font-weight: 500;
+    }
+    
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--gray);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .logout-btn:hover {
+      color: var(--error);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    
+    .greeting {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    
+    .greeting span {
+      color: var(--primary);
+    }
+    
+    .stats-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .stats-title {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .stats-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .stats-value span {
+      font-size: 1rem;
+      color: var(--gray);
+      margin-left: 0.3rem;
+    }
+    
+    .section {
+      background-color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .section-title i {
+      color: var(--primary);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1px solid var(--light-gray);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .file-input {
+      display: none;
+    }
+    
+    .file-label {
+      display: block;
+      padding: 1rem;
+      border: 2px dashed var(--light-gray);
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-label:hover {
+      border-color: var(--primary);
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+    
+    .file-name {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+    }
+    
+    .submission-list {
+      list-style: none;
+    }
+    
+    .submission-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .submission-item:last-child {
+      border-bottom: none;
+    }
+    
+    .submission-amount {
+      font-weight: 600;
+      color: var(--success);
+    }
+    
+    .submission-date {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+    
+    .submission-proof {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    
+    .submission-proof:hover {
+      text-decoration: underline;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    
+    .spinner {
+      border: 3px solid rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      border-top: 3px solid var(--primary);
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    
+    .error-message {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-hand-holding-usd logo-icon"></i>
+      <span>FundraisePro</span>
+    </a>
+    <div class="user-menu">
+      <span class="user-name" id="userName"></span>
+      <button class="logout-btn" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </nav>
+  
+  <main class="container">
+    <div class="dashboard-header">
+      <h1 class="greeting">Hello, <span id="greetingName"></span></h1>
+      <div class="stats-card">
+        <div class="stats-title">Total Funds Raised</div>
+        <div class="stats-value">₹<span id="totalFunds">0</span> <span>INR</span></div>
+      </div>
+    </div>
+    
+    <section class="section">
+      <h2 class="section-title"><i class="fas fa-file-upload"></i> Submit Donation Proof</h2>
+      <form id="proofForm">
+        <div class="form-group">
+          <label for="amount" class="form-label">Amount Raised</label>
+          <input type="number" id="amount" class="form-control" placeholder="Enter amount in INR" required>
+          <div id="amountError" class="error-message">Please enter a valid amount</div>
+        </div>
+        
+        <div class="form-group">
+          <label for="proof" class="form-label">Proof Document</label>
+          <input type="file" id="proof" class="file-input" accept="image/*,.pdf,.doc,.docx" required>
+          <label for="proof" class="file-label" id="fileLabel">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 1.5rem; color: var(--primary); margin-bottom: 0.5rem;"></i>
+            <div>Click to upload proof (Image, PDF, or Word)</div>
+            <div class="file-name" id="fileName">No file selected</div>
+          </label>
+          <div id="fileError" class="error-message">Please upload a valid proof document</div>
+        </div>
+        
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Submit Proof
+        </button>
+      </form>
+    </section>
+    
+    <section class="section">
+      <h2 class="section-title"><i class="fas fa-history"></i> Submission History</h2>
+      <ul class="submission-list" id="submissionList">
+        <li class="submission-item">
+          <div class="submission-amount">Loading submissions...</div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // Check authentication
+    const token = localStorage.getItem("token");
+    const userName = localStorage.getItem("name");
+    
+    if (!token || !userName) {
+      location.href = "login.html";
+    }
+    
+    // Set user name in header
+    document.getElementById("userName").textContent = userName;
+    document.getElementById("greetingName").textContent = userName;
+    
+    // File input handling
+    const proofInput = document.getElementById("proof");
+    const fileName = document.getElementById("fileName");
+    const fileLabel = document.getElementById("fileLabel");
+    
+    proofInput.addEventListener("change", () => {
+      if (proofInput.files.length > 0) {
+        fileName.textContent = proofInput.files[0].name;
+        fileLabel.style.borderColor = "var(--success)";
+        fileLabel.style.backgroundColor = "rgba(16, 185, 129, 0.05)";
+      } else {
+        fileName.textContent = "No file selected";
+        fileLabel.style.borderColor = "var(--light-gray)";
+        fileLabel.style.backgroundColor = "transparent";
+      }
+    });
+    
+    // Logout functionality
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.clear();
+      location.href = "login.html";
+    });
+    
+    // Load dashboard data
+    async function loadDashboard() {
+      try {
+        const res = await fetch("/api/dashboard", {
+          headers: { Authorization: token }
+        });
+        
+        if (!res.ok) {
+          throw new Error("Failed to load dashboard data");
+        }
+        
+        const data = await res.json();
+        
+        // Update total funds
+        document.getElementById("totalFunds").textContent = data.totalFunds.toLocaleString();
+        
+        // Update submission list
+        const list = document.getElementById("submissionList");
+        list.innerHTML = "";
+        
+        if (data.submissions.length === 0) {
+          list.innerHTML = `<li class="submission-item">No submissions yet</li>`;
+          return;
+        }
+        
+        data.submissions.forEach(sub => {
+          const li = document.createElement("li");
+          li.className = "submission-item";
+          
+          const date = new Date(sub.date).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          });
+          
+          li.innerHTML = `
+            <div>
+              <span class="submission-amount">₹${sub.amount.toLocaleString()}</span>
+              <span class="submission-date">${date}</span>
+            </div>
+            <a href="${sub.proofUrl}" class="submission-proof" target="_blank">
+              <i class="fas fa-external-link-alt"></i> View Proof
+            </a>
+          `;
+          
+          list.appendChild(li);
+        });
+        
+      } catch (error) {
+        console.error("Dashboard error:", error);
+        alert("Failed to load dashboard data. Please try again.");
+      }
+    }
+    
+    // Form submission
+    document.getElementById("proofForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      // Reset errors
+      document.querySelectorAll(".error-message").forEach(el => {
+        el.style.display = "none";
+      });
+      
+      // Validate form
+      const amount = document.getElementById("amount").value;
+      const file = proofInput.files[0];
+      let isValid = true;
+      
+      if (!amount || isNaN(amount)) {
+        document.getElementById("amountError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (!file) {
+        document.getElementById("fileError").style.display = "block";
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading
+      document.getElementById("loading").style.display = "block";
+      
+      try {
+        const formData = new FormData();
+        formData.append("amount", amount);
+        formData.append("proof", file);
+        
+        const res = await fetch("/api/dashboard/submit", {
+          method: "POST",
+          headers: { Authorization: token },
+          body: formData
+        });
+        
+        if (!res.ok) {
+          throw new Error("Submission failed");
+        }
+        
+        const data = await res.json();
+        alert(data.message || "Proof submitted successfully!");
+        loadDashboard();
+        
+        // Reset form
+        document.getElementById("proofForm").reset();
+        fileName.textContent = "No file selected";
+        fileLabel.style.borderColor = "var(--light-gray)";
+        fileLabel.style.backgroundColor = "transparent";
+        
+      } catch (error) {
+        alert(error.message || "An error occurred. Please try again.");
+      } finally {
+        document.getElementById("loading").style.display = "none";
+      }
+    });
+    
+    // Initial load
+    loadDashboard();
+  </script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard | FundraisePro</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #7c3aed;
+      --accent: #06b6d4;
+      --light: #f8fafc;
+      --dark: #0f172a;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --gray: #64748b;
+      --light-gray: #e2e8f0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      min-height: 100vh;
+    }
+    
+    .navbar {
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 1.25rem;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      color: var(--accent);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    
+    .nav-link {
+      color: var(--dark);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link:hover {
+      color: var(--primary);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    
+    .subtitle {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+    
+    .leaderboard {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+    
+    .leaderboard-header {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr;
+      padding: 1rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 50px 1fr 1fr;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--light-gray);
+      transition: background-color 0.3s ease;
+    }
+    
+    .leaderboard-row:last-child {
+      border-bottom: none;
+    }
+    
+    .leaderboard-row:hover {
+      background-color: rgba(37, 99, 235, 0.05);
+    }
+    
+    .rank {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    
+    .name {
+      font-weight: 500;
+    }
+    
+    .amount {
+      font-weight: 600;
+      color: var(--success);
+      text-align: right;
+    }
+    
+    .medal {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+      vertical-align: middle;
+    }
+    
+    .gold {
+      color: gold;
+    }
+    
+    .silver {
+      color: silver;
+    }
+    
+    .bronze {
+      color: #cd7f32; /* bronze color */
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray);
+    }
+    
+    .spinner {
+      border: 3px solid rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      border-top: 3px solid var(--primary);
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-right: 0.5rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .time-filter {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background-color: white;
+      border: 1px solid var(--light-gray);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn.active {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    .filter-btn:hover {
+      border-color: var(--primary);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .leaderboard-header,
+      .leaderboard-row {
+        grid-template-columns: 30px 1fr 1fr;
+        padding: 0.8rem 1rem;
+      }
+      
+      .time-filter {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <i class="fas fa-hand-holding-usd logo-icon"></i>
+      <span>FundraisePro</span>
+    </a>
+    <div class="nav-links">
+      <a href="dashboard.html" class="nav-link">Dashboard</a>
+      <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+    </div>
+  </nav>
+  
+  <main class="container">
+    <div class="header">
+      <h1 class="title">Intern Leaderboard</h1>
+      <p class="subtitle">See how you compare with other fundraising interns</p>
+    </div>
+    
+    <div class="time-filter">
+      <button class="filter-btn active" data-period="all">All Time</button>
+      <button class="filter-btn" data-period="month">This Month</button>
+      <button class="filter-btn" data-period="week">This Week</button>
+    </div>
+    
+    <div class="leaderboard">
+      <div class="leaderboard-header">
+        <div>Rank</div>
+        <div>Name</div>
+        <div>Amount Raised</div>
+      </div>
+      
+      <div id="leaderboardContent">
+        <div class="loading">
+          <div class="spinner"></div> Loading leaderboard...
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // DOM elements
+    const leaderboardContent = document.getElementById("leaderboardContent");
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    let currentPeriod = "all";
+    
+    // Load leaderboard data
+    async function loadLeaders(period = "all") {
+      leaderboardContent.innerHTML = `
+        <div class="loading">
+          <div class="spinner"></div> Loading leaderboard...
+        </div>
+      `;
+      
+      try {
+        const res = await fetch(`/api/leaderboard?period=${period}`);
+        
+        if (!res.ok) {
+          throw new Error("Failed to load leaderboard");
+        }
+        
+        const data = await res.json();
+        
+        if (data.length === 0) {
+          leaderboardContent.innerHTML = `
+            <div class="loading" style="color: var(--gray);">
+              No data available
+            </div>
+          `;
+          return;
+        }
+        
+        let leaderboardHTML = "";
+        
+        data.forEach((user, index) => {
+          const rank = index + 1;
+          let medalIcon = "";
+          
+          if (rank === 1) {
+            medalIcon = `<i class="fas fa-medal gold medal"></i>`;
+          } else if (rank === 2) {
+            medalIcon = `<i class="fas fa-medal silver medal"></i>`;
+          } else if (rank === 3) {
+            medalIcon = `<i class="fas fa-medal bronze medal"></i>`;
+          }
+          
+          leaderboardHTML += `
+            <div class="leaderboard-row">
+              <div class="rank">${rank}</div>
+              <div class="name">${medalIcon}${user.name}</div>
+              <div class="amount">₹${user.totalFunds.toLocaleString()}</div>
+            </div>
+          `;
+        });
+        
+        leaderboardContent.innerHTML = leaderboardHTML;
+        
+      } catch (error) {
+        console.error("Leaderboard error:", error);
+        leaderboardContent.innerHTML = `
+          <div class="loading" style="color: var(--error);">
+            <i class="fas fa-exclamation-circle"></i> Failed to load leaderboard
+          </div>
+        `;
+      }
+    }
+    
+    // Time period filter
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        // Update active button
+        filterButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        
+        // Load data for selected period
+        currentPeriod = button.dataset.period;
+        loadLeaders(currentPeriod);
+      });
+    });
+    
+    // Initial load
+    loadLeaders();
+  </script>
+</body>
+</html>
